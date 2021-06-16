@@ -8,7 +8,7 @@
 import click
 import requests
 
-# start the reading list (populate with one book to give the user a sense of the book list and search format)
+# Start the reading list (populate it with one book to give the user a sense of the list and search format)
 reading_list = [
     { "TITLE": "Eloquent JavaScript", "AUTHOR": "Marijn Haverbeke", "PUBLISHER" : "No Starch Press" },
 ]
@@ -24,7 +24,7 @@ def main():
     pass
 
 # The "view" command.
-# ICEBOX: Be able to store the books selected by the users in the "search" command and append it to this viewable reading list.
+# ICEBOX: Be able to store the books selected by the users in the "search" command and append it to our reading list.
 @main.command()
 def view():
     """👀 View your reading list (we added one to start!)"""
@@ -37,12 +37,12 @@ def view():
     click.echo('')
 
 # The "search" command.
-# ICEBOX: I want to refactor this very long function into smaller function; I first wanted to get this working as a whole before breaking it down and simplifying.
+# ICEBOX: I want to refactor this very long function into smaller functions; I first wanted to get this working as a whole before breaking it down and simplifying.
 @main.command()
 @click.argument('user_search')
 def search(user_search):
     """🔎 Search for books; replace spaces with dashes"""
-    # Make the Google Books API request after user types in their "user_search" (EX:"python3 books.py search harry-potter")
+    # Make the Google Books API request after the user types in their "user_search" (EX:"python3 books.py search harry-potter")
     api = "https://www.googleapis.com/books/v1/volumes?"
     query = {'q': {user_search}, 'maxResults': 5}
     click.echo('********************************')
@@ -54,7 +54,7 @@ def search(user_search):
     # Start a search with no books in it
     combine_dict = []
     
-    # For each of the 5 books called by the API, reformat them to only return the title, author, and publisher, and return default data if any of these three are missing.
+    # For each of the 5 books called by the API, reformat them to only return the title, author, and publisher, and return default data if any information is missing ...
     for item in json_response_books:
         try:
             title = item["volumeInfo"]['title']
@@ -70,10 +70,10 @@ def search(user_search):
             publisher = '~Publisher not available~'
         API_reading_list = {"TITLE" : title, "AUTHOR": author, "PUBLISHER": publisher}
         
-        # And then add these 5 new books to our empty combine_dict.
+        # ... And then add these 5 new books to our empty combine_dict.
         combine_dict.append(API_reading_list)
     
-    # And now save everything out of the above loop, and return None if there are less than 5 books available ...
+    # Now save everything out of the above loop, and return None if there are less than 5 books available ...
     try:
         search_result_1 = combine_dict[0]
     except IndexError:
@@ -95,7 +95,7 @@ def search(user_search):
     except IndexError:
         search_result_5 = None
 
-    # ... And return the search results, reformatted as their own dictionaries
+    # ... And return the necessary search results, reformatted as their own dictionaries.
     None if search_result_1 == None else click.echo(f'1: "{search_result_1["TITLE"]}" by {search_result_1["AUTHOR"]}, published by {search_result_1["PUBLISHER"]}')
     None if search_result_2 == None else click.echo(f'2: "{search_result_2["TITLE"]}" by {search_result_2["AUTHOR"]}, published by {search_result_2["PUBLISHER"]}')
     None if search_result_3 == None else click.echo(f'3: "{search_result_3["TITLE"]}" by {search_result_3["AUTHOR"]}, published by {search_result_3["PUBLISHER"]}')
@@ -108,11 +108,11 @@ def search(user_search):
     user_pick = (int(input("Nice! Which book would you like to add to your list? (Please Enter 1, 2, 3, 4, or 5): ")))
     click.echo('')
     
-    # ... And we confirm the selection (1, 2, 3, 4, or 5) ...
+    # ... We confirm the selection (1, 2, 3, 4, or 5) ...
     choices = [search_result_1, search_result_2, search_result_3, search_result_4, search_result_5]
     user_selection = choices[user_pick-1]
     
-    # ... And then append that selection to our reading list!
+    # ... And then we append that selection to our reading list!
     reading_list.append(user_selection)
     click.echo(f'Great! You picked No. {user_pick}: "{user_selection["TITLE"]}"')
     click.echo('_____________')
