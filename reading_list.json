@@ -1,0 +1,8 @@
+{
+	"reading_list": [
+		{ "TITLE": "A", "AUTHOR": "A", "PUBLISHER": "A" },
+		{ "TITLE": "B", "AUTHOR": "B", "PUBLISHER": "B" },
+		{ "TITLE": "C", "AUTHOR": "C", "PUBLISHER": "C" },
+		{ "TITLE": "D", "AUTHOR": "D", "PUBLISHER": "D" }
+	]
+}

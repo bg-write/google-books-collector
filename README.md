@@ -1,6 +1,6 @@
 # Brady Gerber's Google Books CLI Collector
 
-First draft completed June 16, 2021. Worked on this app locally before creating this repo on June 15th.
+First draft completed June 16, 2021. Second draft completed June 29. Worked on this app locally before creating this repo on June 15th.
 
 ## Getting Started
 
@@ -21,17 +21,15 @@ First draft completed June 16, 2021. Worked on this app locally before creating 
 - Coffee
 - Breaks
 
+## Updates Make for Second draft
+- 
+
 ## Next Steps (Icebox)
 
 - Refactor and break down the search command algorithm.
 - Add loops to the search command to allow users to add more than just one book to their reading list; encountered a bug here and ran out of time to address this for the first draft.
 - Store updated user data from the search command into the reading list found in the view command.
-- Better account for user mistakes and error handling while searching for books - typing in "harry potter" with spaces, picking book #6 (algorithm is set to only return 5 books), and more.
-
-## Questions Ahead of the Second Draft
-
-- I used Click, but I first attempted to make this CLI app with Argparse - are there other preferred python modules to help make similar CLI apps? Is the preference not to use any when it comes to Python?
-- I'm able to append the user-selected book to the list, but once the terminal restarts, that data is lost. Is there a way to save that data post-script only using the CLI?
+- Better account for user mistakes and error handling while searching for books - Ex. typing in "harry potter" instead of "harry-potter".
 
 ## The Developer
 

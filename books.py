@@ -7,11 +7,12 @@
 
 import click
 import requests
+import json
 
 # Start the reading list (populate it with one book to give the user a sense of the list and search format)
-reading_list = [
-    { "TITLE": "Eloquent JavaScript", "AUTHOR": "Marijn Haverbeke", "PUBLISHER" : "No Starch Press" },
-]
+# reading_list = [
+#     { "TITLE": "Eloquent JavaScript", "AUTHOR": "Marijn Haverbeke", "PUBLISHER" : "No Starch Press" },
+# ]
 
 @click.group()
 # The message that displays on the Main page each time.
@@ -26,14 +27,18 @@ def main():
     pass
 
 # The "view" command.
+# ICEBOX: update this so I may view reading_list.py, instead of reading_list above.
 @main.command()
 def view():
     """👀 View your reading list (we added one to start!)"""
     click.echo('_____________')
     click.echo(('Reading List').upper())
-    # Reformat each book in our initial reading list for easier user viewing.
-    for item in reading_list:
-        click.echo(f'** "{item["TITLE"]}" by {item["AUTHOR"]}, published by {item["PUBLISHER"]}')
+    # Connect reading_list.json to books.py ...
+    with open('reading_list.json') as f:
+        data = json.load(f)
+        # .. and reformat and print off each book in reading_list.json
+        for item in data['reading_list']:
+            click.echo(f'** "{item["TITLE"]}" by {item["AUTHOR"]}, published by {item["PUBLISHER"]}')
     click.echo('_____________')
     click.echo('')
 
@@ -93,17 +98,18 @@ def search(user_search, max_results):
     # ... We confirm the book that user selects ...
     user_selection = combine_dict[user_pick-1]
     click.echo(f'Great! You picked No. {user_pick}: "{user_selection["TITLE"]}"')
+    click.echo(' ')
     
     # ... And then we append that selection to our reading list
-    reading_list.append(user_selection)
-    click.echo('We\'ve added it to your reading list.')
-    click.echo('_____________')
-    click.echo(' ')
+    # reading_list.append(user_selection)
+    # click.echo('We\'ve added it to your reading list.')
+    # click.echo('_____________')
+    # click.echo(' ')
 
     # Will delete the below later, but now just good to have for reference ...
-    click.echo(('Reading List').upper())
-    for item in reading_list:
-        click.echo(f'** "{item["TITLE"]}" by {item["AUTHOR"]}, published by {item["PUBLISHER"]}')
+    # click.echo(('Reading List').upper())
+    # for item in reading_list:
+    #     click.echo(f'** "{item["TITLE"]}" by {item["AUTHOR"]}, published by {item["PUBLISHER"]}')
 
 if __name__ == "__main__":
     main()
