@@ -38,7 +38,6 @@ def view():
     click.echo('')
 
 # The "search" command.
-# ICEBOX: I want to refactor this very long function into smaller functions; I first wanted to get this working as a whole before breaking it down and simplifying.
 @main.command()
 @click.argument('user_search')
 @click.argument('max_results')
@@ -59,7 +58,7 @@ def search(user_search, max_results):
     # Start a search with no books in it that we'll populate soon.
     combine_dict = []
     
-    # For each of the books called by the API, reformat them to only return the title, author(s), and publisher, and return default data if any information is missing ("~X not available~") ...
+    # For each of the books called by the API, reformat them to only return the title, author(s), and publisher, and return default data if any information is missing ("~XXX not available~") ...
     for item in json_response_books:
         n = 0
         try:
@@ -85,60 +84,26 @@ def search(user_search, max_results):
         click.echo(f'{n}: "{item["TITLE"]}" by {item["AUTHOR"]}, published by {item["PUBLISHER"]}')
         click.echo('')
     click.echo('********************************')
+    click.echo('')
 
+    # The user selects a book from the books returned above ...
+    user_pick = (int(input("Nice! Which book would you like to add to your list? (Please Enter a number): ")))
+    click.echo('')
 
-    # Now save everything out of the above loop, and return None if there are less than 5 books available ...
-    # try:
-    #     search_result_1 = combine_dict[0]
-    # except IndexError:
-    #     search_result_1 = None
-    # try:
-    #     search_result_2 = combine_dict[1]
-    # except IndexError:
-    #     search_result_2 = None
-    # try:
-    #     search_result_3 = combine_dict[2]
-    # except IndexError:
-    #     search_result_3 = None
-    # try:
-    #     search_result_4 = combine_dict[3]
-    # except IndexError:
-    #     search_result_4 = None
-    # try:
-    #     search_result_5 = combine_dict[4]
-    # except IndexError:
-    #     search_result_5 = None
-
-    # ... And return the necessary search results, reformatted as their own dictionaries.
-    # None if search_result_1 == None else click.echo(f'1: "{search_result_1["TITLE"]}" by {search_result_1["AUTHOR"]}, published by {search_result_1["PUBLISHER"]}')
-    # None if search_result_2 == None else click.echo(f'2: "{search_result_2["TITLE"]}" by {search_result_2["AUTHOR"]}, published by {search_result_2["PUBLISHER"]}')
-    # None if search_result_3 == None else click.echo(f'3: "{search_result_3["TITLE"]}" by {search_result_3["AUTHOR"]}, published by {search_result_3["PUBLISHER"]}')
-    # None if search_result_4 == None else click.echo(f'4: "{search_result_4["TITLE"]}" by {search_result_4["AUTHOR"]}, published by {search_result_4["PUBLISHER"]}')
-    # None if search_result_5 == None else click.echo(f'5: "{search_result_5["TITLE"]}" by {search_result_5["AUTHOR"]}, published by {search_result_5["PUBLISHER"]}')
-    # click.echo('********************************')
-    # click.echo('')
-
-    # # ICEBOX Break down into a smaller function
-    # # The user selects a book from the 5 books returned above ...
-    # user_pick = (int(input("Nice! Which book would you like to add to your list? (Please Enter 1, 2, 3, 4, or 5): ")))
-    # click.echo('')
+    # ... We confirm the book that user selects ...
+    user_selection = combine_dict[user_pick-1]
+    click.echo(f'Great! You picked No. {user_pick}: "{user_selection["TITLE"]}"')
     
-    # # ... We confirm the selection (1, 2, 3, 4, or 5) ...
-    # choices = [search_result_1, search_result_2, search_result_3, search_result_4, search_result_5]
-    # user_selection = choices[user_pick-1]
-    
-    # # ... And then we append that selection to our reading list!
-    # reading_list.append(user_selection)
-    # click.echo(f'Great! You picked No. {user_pick}: "{user_selection["TITLE"]}"')
-    # click.echo('_____________')
-    # click.echo(('Reading List').upper())
-    # for item in reading_list:
-    #     click.echo(f'** "{item["TITLE"]}" by {item["AUTHOR"]}, published by {item["PUBLISHER"]}')
-    # click.echo('_____________')
-    # click.echo('')
+    # ... And then we append that selection to our reading list
+    reading_list.append(user_selection)
+    click.echo('We\'ve added it to your reading list.')
+    click.echo('_____________')
+    click.echo(' ')
 
-    #ICEBOX I am able to append the user selected book to this list, but once the terminal restarts, that data is lost, and I can only add one book. I need to add in some type of loop to continue the process of appending more books to the reading list.
-    #ICEBOX Account for user going outside search parameters - typing in "harry potter" with spaces, or picking book #6.
+    # Will delete the below later, but now just good to have for reference ...
+    click.echo(('Reading List').upper())
+    for item in reading_list:
+        click.echo(f'** "{item["TITLE"]}" by {item["AUTHOR"]}, published by {item["PUBLISHER"]}')
 
 if __name__ == "__main__":
     main()
