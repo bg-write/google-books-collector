@@ -17,7 +17,7 @@ reading_list = [
 # The message that displays on the Main page each time.
 def main():
     """
-    Welcome! \U0001F4DA This simple CLI for querying books via Google Books was build by Brady Gerber using the "Click" python package. To use this app, in your terminal, type out "python3 books.py" and one of the below commands (EX: "python3 books.py view" or "python3 books.py search harry-potter"). To exit: "ctrl + c."\n
+    Welcome! \U0001F4DA This CLI app for querying Google Books was build by Brady Gerber using the Click python package. To use this app, in your terminal, type out "python3 books.py" and one of the below commands (EX: "python3 books.py view" or "python3 books.py search harry-potter"). To exit: "ctrl + c."\n
     Happy reading!\n
     -B
     """
@@ -61,7 +61,8 @@ def search(user_search):
         except KeyError:
             title = '~Title not available]~'
         try:
-            author = item["volumeInfo"]['authors'][0]
+            authorDraft = item["volumeInfo"]['authors']
+            author = " & ".join(authorDraft)
         except KeyError:
             author = '~Author not available~'
         try:
