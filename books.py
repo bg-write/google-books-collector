@@ -99,20 +99,30 @@ def search(user_search, max_results):
     user_pick = (int(input("Excellent! Which book would you like to add? (Please Enter a number): ")))
     click.echo('')
 
-    # ... We confirm the book that user selects ...
+    # ... We confirm the book that user selects.
     user_selection = combine_dict[user_pick-1]
     click.echo(f'Great! You picked No. {user_pick}: "{user_selection["TITLE"]}"')
+    click.echo('')
 
-    # ... Create our field_names to help with our following append function ...
+    # If we find duplicates in your choice, exit out of script ...
+    def check_duplicates(file_name):
+        with open(file_name, 'r') as f:
+            for row in f:
+                if user_selection['TITLE'] in row:
+                    click.echo('But hey now, this book is already in your list. Please search for another title.')
+                    click.echo('')
+                    exit()
+    check_duplicates('reading_list.txt')
+
+    # ... Otherwise, create our field_names to help with our following append function ...
     field_names = ['TITLE', 'AUTHOR', 'PUBLISHER']
     
     # ... And then we append that selection to our reading list
     def append_dict_as_row(file_name, dict_of_elem, field_names):
-        # Open file in append mode
         with open(file_name, 'a+', newline='') as write_obj:
             # Create a writer object from csv module
             dict_writer = DictWriter(write_obj, fieldnames=field_names)
-            # Add dictionary as wor in the csv
+            # Add dictionary as row in the csv
             dict_writer.writerow(dict_of_elem)
     append_dict_as_row('reading_list.txt', user_selection, field_names)
 
@@ -122,6 +132,6 @@ def search(user_search, max_results):
     click.echo('To view your updated list, please Enter "python3 books.py view".')
     click.echo('_____________')
     click.echo(' ')
-
+            
 if __name__ == "__main__":
     main()
