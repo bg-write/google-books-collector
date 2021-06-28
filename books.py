@@ -7,19 +7,15 @@
 
 import click
 import requests
-import json
-
-# Start the reading list (populate it with one book to give the user a sense of the list and search format)
-# reading_list = [
-#     { "TITLE": "Eloquent JavaScript", "AUTHOR": "Marijn Haverbeke", "PUBLISHER" : "No Starch Press" },
-# ]
+import csv
+from csv import DictWriter
 
 @click.group()
 # The message that displays on the Main page each time.
 def main():
     """
-    Welcome! \U0001F4DA This CLI app for querying Google Books was build by Brady Gerber using the Click python package. To use this app, in your terminal, type out "python3 books.py" and one of the below commands (EX: "python3 books.py view" or "python3 books.py search harry-potter 10").\n
-    To search for a book, type in the book you want (replace spaces with dashes) and the number of books you want to return (up to 40 books per search).
+    Welcome! \U0001F4DA This simple CLI app for querying Google Books was build by Brady Gerber with the Click python package. To use this app, in your terminal, type out "python3 books.py" and one of the below commands (EX: "python3 books.py view" or "python3 books.py search harry-potter 10").\n
+    To search for a book, type in a book (replace spaces with dashes) and the number of books you want to return (up to 40 books per search).
     To exit: "ctrl + c."\n
     Happy reading!\n
     -B
@@ -32,13 +28,20 @@ def main():
 def view():
     """👀 View your reading list (we added one to start!)"""
     click.echo('_____________')
-    click.echo(('Reading List').upper())
-    # Connect reading_list.json to books.py ...
-    with open('reading_list.json') as f:
-        data = json.load(f)
-        # .. and reformat and print off each book in reading_list.json
-        for item in data['reading_list']:
-            click.echo(f'** "{item["TITLE"]}" by {item["AUTHOR"]}, published by {item["PUBLISHER"]}')
+    click.echo(('Reading List:').upper())
+    # Connect reading_list.txt to books.py via csv ...
+    with open('reading_list.txt') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count = 0
+        for row in csv_reader:
+            if line_count == 0:
+                line_count += 1
+            else:
+                click.echo(f'\t"{row[0]}" by {row[1]}, published by {row[2]}')
+                line_count += 1
+        click.echo(f'Counted {line_count-1} book(s).')
+        click.echo('')
+        click.echo('To add to your list, Enter "Python3 books.py search {book-title} {# of books to return}"')
     click.echo('_____________')
     click.echo('')
 
@@ -92,24 +95,32 @@ def search(user_search, max_results):
     click.echo('')
 
     # The user selects a book from the books returned above ...
-    user_pick = (int(input("Nice! Which book would you like to add to your list? (Please Enter a number): ")))
+    user_pick = (int(input("Excellent! Which book would you like to add to your list? (Please Enter a number): ")))
     click.echo('')
 
     # ... We confirm the book that user selects ...
     user_selection = combine_dict[user_pick-1]
-    click.echo(f'Great! You picked No. {user_pick}: "{user_selection["TITLE"]}"')
-    click.echo(' ')
+    click.echo(f'Great! You\'ve picked No. {user_pick}: "{user_selection["TITLE"]}"')
+
+    # ... Create our field_names to help with our following append function ...
+    field_names = ['TITLE', 'AUTHOR', 'PUBLISHER']
     
     # ... And then we append that selection to our reading list
-    # reading_list.append(user_selection)
-    # click.echo('We\'ve added it to your reading list.')
-    # click.echo('_____________')
-    # click.echo(' ')
+    def append_dict_as_row(file_name, dict_of_elem, field_names):
+        # Open file in append mode
+        with open(file_name, 'a+', newline='') as write_obj:
+            # Create a writer object from csv module
+            dict_writer = DictWriter(write_obj, fieldnames=field_names)
+            # Add dictionary as wor in the csv
+            dict_writer.writerow(dict_of_elem)
+    append_dict_as_row('reading_list.txt', user_selection, field_names)
 
-    # Will delete the below later, but now just good to have for reference ...
-    # click.echo(('Reading List').upper())
-    # for item in reading_list:
-    #     click.echo(f'** "{item["TITLE"]}" by {item["AUTHOR"]}, published by {item["PUBLISHER"]}')
+    # ... And confirming that the add was successful ...
+    click.echo('We\'ve added it to your list.')
+    click.echo('')
+    click.echo('To view your updated list, please Enter "python3 books.py view".')
+    click.echo('_____________')
+    click.echo(' ')
 
 if __name__ == "__main__":
     main()
