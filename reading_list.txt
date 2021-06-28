@@ -1,4 +1,3 @@
 title,author,publisher
-Harry,Katie Nicholl,Hachette Books
-Meghan and Harry,Lady Colin Campbell,~Publisher not available~
-Peanut,Ayun Halliday,Schwartz & Wade
+Taco USA,Gustavo Arellano,Simon and Schuster
+Taco USA,Gustavo Arellano,Simon and Schuster

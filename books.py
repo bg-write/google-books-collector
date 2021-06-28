@@ -11,11 +11,11 @@ import csv
 from csv import DictWriter
 
 @click.group()
-# The message that displays on the Main page each time.
+# The message that displays when you Enter "python3 books.py"
 def main():
     """
     Welcome! \U0001F4DA This simple CLI app for querying Google Books was build by Brady Gerber with the Click python package. To use this app, in your terminal, type out "python3 books.py" and one of the below commands (EX: "python3 books.py view" or "python3 books.py search harry-potter 10").\n
-    To search for a book, type in a book (replace spaces with dashes) and the number of books you want to return (up to 40 books per search).
+    To search for a book, type in what you wish to find (replace spaces with dashes) and the number of books you want to return (up to 40 books per search).
     To exit: "ctrl + c."\n
     Happy reading!\n
     -B
@@ -26,7 +26,7 @@ def main():
 # ICEBOX: update this so I may view reading_list.py, instead of reading_list above.
 @main.command()
 def view():
-    """👀 View your reading list (we added one to start!)"""
+    """👀 View your reading list"""
     click.echo('_____________')
     click.echo(('Reading List:').upper())
     # Connect reading_list.txt to books.py via csv ...
@@ -37,11 +37,12 @@ def view():
             if line_count == 0:
                 line_count += 1
             else:
-                click.echo(f'\t"{row[0]}" by {row[1]}, published by {row[2]}')
+                click.echo(f'\t {line_count}. "{row[0]}" by {row[1]}, published by {row[2]}')
                 line_count += 1
-        click.echo(f'Counted {line_count-1} book(s).')
         click.echo('')
-        click.echo('To add to your list, Enter "Python3 books.py search {book-title} {# of books to return}"')
+        click.echo(f'Counted {line_count-1} book(s).')
+    click.echo('')
+    click.echo('To add to your list, Enter "Python3 books.py search {book-title} {# of books to return, up to 40 per search}"')
     click.echo('_____________')
     click.echo('')
 
@@ -51,7 +52,7 @@ def view():
 @click.argument('max_results')
 def search(user_search, max_results):
     """🔎 Search for books (replace spaces with dashes, return up to 40 books per search)"""
-    # Make the Google Books API request after the user types in their "user_search" (EX:"python3 books.py search harry-potter")
+    # Make the Google Books API request after the user types in their "user_search" and "max_results"
     api = "https://www.googleapis.com/books/v1/volumes?"
     query = {'q': {user_search}, 'maxResults': {max_results}}
 
@@ -66,7 +67,7 @@ def search(user_search, max_results):
     # Start a search with no books in it that we'll populate soon.
     combine_dict = []
     
-    # For each of the books called by the API, reformat them to only return the title, author(s), and publisher, and return default data if any information is missing ("~XXX not available~") ...
+    # For each book called by the API (json_response_books), reformat to only return the title, author(s), and publisher, and return default data if any information is missing ("~XXX not available~") ...
     for item in json_response_books:
         n = 0
         try:
@@ -86,7 +87,7 @@ def search(user_search, max_results):
         # ... And then add these new books to our empty combine_dict.
         combine_dict.append(API_reading_list)
     
-    # V2 UPDATE FOR LOOP TO RETURN EVERYTHING
+    # And then actually print off our reading list in a more readable way.
     for item in combine_dict:
         n += 1
         click.echo(f'{n}: "{item["TITLE"]}" by {item["AUTHOR"]}, published by {item["PUBLISHER"]}')
@@ -95,12 +96,12 @@ def search(user_search, max_results):
     click.echo('')
 
     # The user selects a book from the books returned above ...
-    user_pick = (int(input("Excellent! Which book would you like to add to your list? (Please Enter a number): ")))
+    user_pick = (int(input("Excellent! Which book would you like to add? (Please Enter a number): ")))
     click.echo('')
 
     # ... We confirm the book that user selects ...
     user_selection = combine_dict[user_pick-1]
-    click.echo(f'Great! You\'ve picked No. {user_pick}: "{user_selection["TITLE"]}"')
+    click.echo(f'Great! You picked No. {user_pick}: "{user_selection["TITLE"]}"')
 
     # ... Create our field_names to help with our following append function ...
     field_names = ['TITLE', 'AUTHOR', 'PUBLISHER']
@@ -115,7 +116,7 @@ def search(user_search, max_results):
             dict_writer.writerow(dict_of_elem)
     append_dict_as_row('reading_list.txt', user_selection, field_names)
 
-    # ... And confirming that the add was successful ...
+    # ... And then confirm that the add was successful ...
     click.echo('We\'ve added it to your list.')
     click.echo('')
     click.echo('To view your updated list, please Enter "python3 books.py view".')

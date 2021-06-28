@@ -26,10 +26,9 @@ First draft completed June 16, 2021. Second draft completed June 29. Worked on t
 
 ## Next Steps (Icebox)
 
-- Refactor and break down the search command algorithm.
-- Add loops to the search command to allow users to add more than just one book to their reading list; encountered a bug here and ran out of time to address this for the first draft.
-- Store updated user data from the search command into the reading list found in the view command.
-- Better account for user mistakes and error handling while searching for books - Ex. typing in "harry potter" instead of "harry-potter".
+- Further refactor and break down the search command algorithm (can always simplify).
+- Add ability to remove specific books from current reading list (a "remove" ability was not requested in this specific technical assessment)
+- Better account for user mistakes and error handling while searching for books. Ex. typing in "harry potter" instead of "harry-potter", searching for more than 40 books in one search, adding the same book twice.
 
 ## The Developer
 
