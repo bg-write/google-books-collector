@@ -67,32 +67,36 @@ def search(user_search, max_results):
     combine_dict = []
     
     # For each book called by the API (json_response_books), reformat to only return the title, author(s), and publisher, and return default data if any info is missing ("~XXX not available~") ...
-    for item in json_response_books:
-        n = 0
-        try:
-            title = item["volumeInfo"]['title']
-        except KeyError:
-            title = '~Title not available]~'
-        try:
-            author = " & ".join(item["volumeInfo"]['authors'])
-        except KeyError:
-            author = '~Author not available~'
-        try:
-            publisher = item["volumeInfo"]['publisher']
-        except KeyError:
-            publisher = '~Publisher not available~'
-        API_reading_list = {"TITLE" : title, "AUTHOR": author, "PUBLISHER": publisher}
-        
-        # ... And then add all these new books into our empty combine_dict ...
-        combine_dict.append(API_reading_list)
+    def reformat_search():
+        for item in json_response_books:
+            try:
+                title = item["volumeInfo"]['title']
+            except KeyError:
+                title = '~Title not available]~'
+            try:
+                author = " & ".join(item["volumeInfo"]['authors'])
+            except KeyError:
+                author = '~Author not available~'
+            try:
+                publisher = item["volumeInfo"]['publisher']
+            except KeyError:
+                publisher = '~Publisher not available~'
+            API_reading_list = {"TITLE" : title, "AUTHOR": author, "PUBLISHER": publisher}
+            
+            # ... And then add all these new books into our empty combine_dict ...
+            combine_dict.append(API_reading_list)
+    reformat_search()
     
     # ... And then actually print off our reading list in a more readable way.
-    for item in combine_dict:
-        n += 1
-        click.echo(f'{n}: "{item["TITLE"]}" by {item["AUTHOR"]}, published by {item["PUBLISHER"]}')
+    def print_search():
+        n = 0
+        for item in combine_dict:
+            n += 1
+            click.echo(f'{n}: "{item["TITLE"]}" by {item["AUTHOR"]}, published by {item["PUBLISHER"]}')
+            click.echo('')
+        click.echo('********************************')
         click.echo('')
-    click.echo('********************************')
-    click.echo('')
+    print_search()
 
     # The user selects a book from the books returned above ...
     user_pick = (int(input("Excellent! Which book would you like to add? (Please Enter a number): ")))

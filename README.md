@@ -26,7 +26,7 @@ First draft completed June 16, 2021. Second draft completed June 29. Worked on t
 - Updated Author information to return multiple names by removing [0] author index and adding a join method to combine multiple book authors with “&”. (Tested this with a search for “taco” and seeing book #2.)
 - Added a for loop to make the book search more flexible to return any number of books specified by the user, up to 40 books (the Google Books API can return up to 40 books per query). This code is easy to adjust if we only wish to consistently return 5 books per search no matter what.
 - Imported csv and its DictWriter to append and store books in “reading_list.txt” file rather than in-memory. (I chose csv for its ease and for its ability to be used with other applications as needed; I considered installing Pandas, yet I felt it wasn’t necessary for this simple CLI.)
-- Broke down search function into smaller functions: "Search" became XXX.
+- Broke down overall search function into smaller functions: "search" became "search", "reformat_search", "print_search", "check_duplicates", and "append_dict_as_row".
 
 ## Next Steps (Icebox)
 
