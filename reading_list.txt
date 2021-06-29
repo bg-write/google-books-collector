@@ -1,3 +1,1 @@
 title,author,publisher
-Taco USA,Gustavo Arellano,Simon and Schuster
-The Taco Cleanse,Wes Allison & Stephanie Bogdanich & Molly R. Frisinger & Jessica Morris,The Experiment
