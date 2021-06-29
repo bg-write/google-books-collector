@@ -21,7 +21,7 @@ First draft completed June 16, 2021. Second draft completed June 29. Worked on t
 - Coffee
 - Breaks
 
-## Updates Made for the Second draft
+## Updates Made for the Second Draft
 - Cleaned up the overall copy and code to be less repetitive and more useful in guiding users from start to end.
 - Updated Author information to return multiple names by removing [0] author index and adding a join method to combine multiple book authors with “&”. (Tested this with a search for “taco” and seeing book #2.)
 - Added a for loop to make the book search more flexible to return any number of books specified by the user (the Google Books API can return up to 40 books per query). This code is easy to adjust and hardcode if we only wish to consistently return 5 books per search no matter what.

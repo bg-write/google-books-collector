@@ -14,7 +14,7 @@ from csv import DictWriter
 # The --help message that displays when you Enter "python3 books.py"
 def main():
     """
-    Welcome! \U0001F4DA This simple CLI app for querying Google Books was built by Brady Gerber with the Click python package. In your terminal, please type out "python3 books.py" and one of the below commands and press Enter (Ex: "python3 books.py view" or "python3 books.py search harry-potter 10").\n
+    Welcome! \U0001F4DA This simple CLI app for querying Google Books was built by Brady Gerber with the Click python package. In your terminal, please type out "python3 books.py", one of the below commands, and press Enter (Ex: "python3 books.py view" or "python3 books.py search harry-potter 10").\n
     To search for a book, type in what you wish to find (replace spaces with dashes) and the number of books you want to return (up to 40 books per search).
     To exit your search at any time, use "ctrl + c."\n
     Happy reading!\n
@@ -41,7 +41,7 @@ def view():
         click.echo('')
         click.echo(f'Counted {line_count-1} book(s).')
     click.echo('')
-    click.echo('To add to your list, Enter "Python3 books.py search {book-title} {# of books to return, up to 40 per search}"')
+    click.echo('To add to your list, please Enter "Python3 books.py search {book-title} {# of books to return, up to 40 per search}"')
     click.echo('_____________')
     click.echo('')
 
