@@ -1,10 +1,3 @@
-# The Click python package is required to use this app: $ pip install click
-
-# Full Click documentation: https://click.palletsprojects.com/en/8.0.x/
-# Google Books API documentation: https://developers.google.com/books/docs/v1/getting_started
-
-# To launch this app: $ python3 books.py
-
 import click
 import requests
 import csv
